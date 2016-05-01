@@ -1,11 +1,16 @@
 {
   "name": "lazy-loader",
-  "version": "1.0.0",
-  "main": "./js/src/LazyLoader",
+  "version": "2.0.0",
+  "main": "js/src/LazyLoader",
   "dependencies": {
-    "factory": "aleclarson/factory#1.0.0",
-    "loader": "aleclarson/loader#1.0.0",
+    "Type": "aleclarson/Type#1.0.0",
+    "loader": "aleclarson/loader#2.0.0",
     "type-utils": "aleclarson/type-utils#1.0.0",
     "q": "aleclarson/q#1.0.0"
+  },
+  "lotus": {
+    "plugins": [
+      "lotus-coffee"
+    ]
   }
 }

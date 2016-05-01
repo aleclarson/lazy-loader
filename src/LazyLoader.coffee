@@ -1,29 +1,42 @@
 
 { isKind } = require "type-utils"
 
-Factory = require "factory"
 Loader = require "loader"
+Type = require "Type"
 Q = require "q"
 
-module.exports = Factory "LazyLoader",
+type = Type "LazyLoader"
 
-  kind: Loader
+type.inherits Loader
 
-  customValues:
+type.defineProperties
 
-    loaded:
-      value: undefined
-      reactive: yes
+  loaded:
+    value: undefined
+    reactive: yes
+
+type.overrideMethods
 
   load: ->
-    return Q.fulfill @loaded if @loaded isnt undefined
-    Loader::load.apply this, arguments
 
-  _onLoad: (result) ->
+    if @loaded isnt undefined
+      return Q.fulfill @loaded
+
+    @__super arguments
+
+  __onLoad: (result) ->
+
     @loaded = result
-    result
 
-  _onUnload: ->
+    return result
+
+  __onUnload: ->
+
     result = @loaded
-    result.unload() if (isKind result, Object) and (isKind result.unload, Function)
+
+    if (isKind result, Object) and (isKind result.unload, Function)
+      result.unload()
+
     @loaded = undefined
+
+module.exports = type.build()
