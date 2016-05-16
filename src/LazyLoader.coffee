@@ -1,7 +1,6 @@
 
-{ isKind } = require "type-utils"
-
 Loader = require "loader"
+isType = require "isType"
 Type = require "Type"
 Q = require "q"
 
@@ -34,7 +33,7 @@ type.overrideMethods
 
     result = @loaded
 
-    if (isKind result, Object) and (isKind result.unload, Function)
+    if result and isType result.unload, Function
       result.unload()
 
     @loaded = undefined
