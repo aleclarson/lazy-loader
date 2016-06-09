@@ -1,12 +1,12 @@
-var Loader, Q, Type, isType, type;
+var Loader, Promise, Type, isType, type;
+
+Promise = require("Promise");
 
 Loader = require("loader");
 
 isType = require("isType");
 
 Type = require("Type");
-
-Q = require("q");
 
 type = Type("LazyLoader");
 
@@ -22,7 +22,7 @@ type.defineProperties({
 type.overrideMethods({
   load: function() {
     if (this.loaded !== void 0) {
-      return Q.fulfill(this.loaded);
+      return Promise(this.loaded);
     }
     return this.__super(arguments);
   },

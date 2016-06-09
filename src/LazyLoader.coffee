@@ -1,8 +1,8 @@
 
+Promise = require "Promise"
 Loader = require "loader"
 isType = require "isType"
 Type = require "Type"
-Q = require "q"
 
 type = Type "LazyLoader"
 
@@ -19,7 +19,7 @@ type.overrideMethods
   load: ->
 
     if @loaded isnt undefined
-      return Q.fulfill @loaded
+      return Promise @loaded
 
     @__super arguments
 
