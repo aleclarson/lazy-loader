@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "Promise": "aleclarson/Promise#2.0.0",
+    "ReactiveVar": "aleclarson/ReactiveVar#2.0.0",
     "Type": "aleclarson/Type#1.1.0",
     "isType": "aleclarson/isType#1.0.0",
     "loader": "aleclarson/loader#2.0.0",
