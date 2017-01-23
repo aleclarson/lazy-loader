@@ -1,4 +1,5 @@
 
+ReactiveVar = require "ReactiveVar"
 Promise = require "Promise"
 Loader = require "loader"
 isType = require "isType"
@@ -8,34 +9,40 @@ type = Type "LazyLoader"
 
 type.inherits Loader
 
-type.defineProperties
+type.defineValues ->
 
-  loaded:
-    value: undefined
-    reactive: yes
+  _value: ReactiveVar()
+
+type.defineGetters
+
+  value: -> @_value.get()
+
+  isLoaded: -> @_value.get() isnt undefined
+
+type.defineMethods
+
+  get: (key) ->
+    value = @_value.get()
+    if value isnt undefined
+    then value[key]
+    else null
 
 type.overrideMethods
 
   load: ->
+    value = @_value.get()
+    if value isnt undefined
+    then Promise value
+    else @__super arguments
 
-    if @loaded isnt undefined
-      return Promise @loaded
-
-    @__super arguments
-
-  __onLoad: (result) ->
-
-    @loaded = result
-
-    return result
+  __onLoad: (value) ->
+    @_value.set value
+    return value
 
   __onUnload: ->
-
-    result = @loaded
-
-    if result and isType result.unload, Function
-      result.unload()
-
-    @loaded = undefined
+    value = @_value.get()
+    value.unload() if value and isType value.unload, Function
+    @_value.set undefined
+    return
 
 module.exports = type.build()
